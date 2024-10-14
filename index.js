@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import GalleryItemRouter from './Routes/GalleryItemRouter.js'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import CategoryRouter  from './Routes/CategoryRouter.js'
 
 dotenv.config()
 
@@ -53,6 +54,7 @@ mongoose.connect(connectionString).then(
 
 app.use("/api/users",userRouter)
 app.use("/api/gallery", GalleryItemRouter)
+app.use("/api/category", CategoryRouter)
 
 
 app.listen(5000,(req,res)=>{

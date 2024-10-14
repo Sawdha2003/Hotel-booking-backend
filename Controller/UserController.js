@@ -44,29 +44,22 @@ export function postUsers(req,res){
 }
 
 export function loginUser(req,res){
-  const credentials = req.body
+  const credentials = req.body;
 
-  Users.findOne({email : credentials.email, password :credentials.password}).then(
-    (user)=>{
+  Users.findOne({ email: credentials.email }).then((user) => {
 
-      if(user == null){
+    if (user == null) {
+      res.status(403).json({
+        message: 'User not found',
+      });
+    } else {
+      const isPasswordValid = bcrypt.compareSync(credentials.password, user.password);
 
+      if (!isPasswordValid) {
         res.status(403).json({
-          message : "User not found"
-        })
-
-      }else{
-
-        const isPasswordValid = bcrypt.compareSync(credentials.password, user.password);
-
-        if (!isPasswordValid) {
-          res.status(403).json({
-            message: 'Incorrect password',
-          });
-        } else {
-
-
-
+          message: 'Incorrect password',
+        });
+      } else {
         const payload = {
           id: user._id,
           email: user.email,
@@ -74,7 +67,6 @@ export function loginUser(req,res){
           lastName: user.lastName,
           type: user.type,
         };
-
         const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: "1h" });
 
         res.json({
