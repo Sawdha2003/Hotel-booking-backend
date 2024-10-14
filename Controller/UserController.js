@@ -2,6 +2,11 @@ import mongoose, { trusted } from "mongoose"
 import Users from '../Model/Users.js';
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import dotenv from 'dotenv'
+
+dotenv.config()
+
+
 
 
 
@@ -70,7 +75,7 @@ export function loginUser(req,res){
           type: user.type,
         };
 
-        const token = jwt.sign(payload, "secret", { expiresIn: "1h" });
+        const token = jwt.sign(payload, process.env.JWT_KEY, { expiresIn: "1h" });
 
         res.json({
           message : "User found",
