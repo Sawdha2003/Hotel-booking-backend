@@ -1,5 +1,5 @@
 import express from 'express'
-import { Createcategory, deleteCategory, getCategoryByName } from '../Controller/CategoryController.js'
+import { Createcategory, deleteCategory, getCategoryByName, updateCategory, getCategory } from '../Controller/CategoryController.js'
 
 const CategoryRouter=express.Router();
 
@@ -7,17 +7,12 @@ CategoryRouter.post("/", Createcategory)
 
 CategoryRouter.delete("/:name",deleteCategory)
 
-CategoryRouter.get("/searchbyPrice", (req,res)=>{
-    res.json({
 
-        message:"Searchbyprice"
-
-    })
-})
-
-CategoryRouter.get("/name" ,getCategoryByName)
+CategoryRouter.get("/:name" ,getCategoryByName)
 
 CategoryRouter.get("/",getCategory);
+
+CategoryRouter.put("/:name", updateCategory)
 
 
 export default CategoryRouter;
