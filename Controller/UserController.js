@@ -108,4 +108,18 @@ export function isCustomerValid(req){
 
 
 
+export function getUser(req, res) {
+  const user = req.user;
+  console.log(user);
+  if (user == null) {
+    res.json({
+      message: "not found",
+    });
+  } else {
+    res.json({
+      message: "found",
+      user: user,
+    });
+  }
+}
 
