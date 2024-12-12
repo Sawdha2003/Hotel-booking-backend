@@ -109,7 +109,7 @@ export function isCustomerValid(req){
 
 
 export function getUser(req, res) {
-  const user = req.user;
+  const user = req.body.user;
   console.log(user);
   if (user == null) {
     res.json({

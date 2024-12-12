@@ -8,6 +8,8 @@ import dotenv from 'dotenv'
 import CategoryRouter  from './Routes/CategoryRouter.js'
 import RoomRoutes from './Routes/RoomRoutes.js'
 import bookingRouter from './Routes/BookingRouter.js'
+import cors from 'cors'; 
+
 
 dotenv.config()
 
@@ -18,28 +20,28 @@ app.use(bodyParser.json())
 
 const connectionString= process.env.MONGO_URL;
 
+app.use(cors({
+  origin: 'http://localhost:5173', // Frontend URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allowed headers
+}));
 
-app.use((req,res,next)=>{
-
-    const token = req.header("Authorization")?.replace("Bearer ", "")
+app.use((req, res, next) => {
   
-    if(token != null){
-      jwt.verify(token,process.env.JWT_KEY,
-        (err,decoded)=>{
-        if(decoded != null){
-          req.user = decoded
-          next()
-        }else{
-          next()
-        }
-  
-      }
-    )
-    }else{
-      next()
-    }
-  
-  });
+	const token = req.header("Authorization")?.replace("Bearer ", "");
+	if (token != null) {
+		jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
+			if (decoded != null) {
+				req.user = decoded;
+				next();
+			} else {
+				next();
+			}
+		});
+	} else {
+		next();
+	}
+});
 
 mongoose.connect(connectionString).then(
     ()=>{
