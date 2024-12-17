@@ -1,9 +1,9 @@
 import express from 'express'
-import { Createcategory, deleteCategory, getCategoryByName, updateCategory, getCategory } from '../Controller/CategoryController.js'
+import { createCategory, deleteCategory, getCategoryByName, updateCategory, getCategory } from '../Controller/CategoryController.js'
 
 const CategoryRouter=express.Router();
 
-CategoryRouter.post("/", Createcategory)
+CategoryRouter.post("/", createCategory)
 
 CategoryRouter.delete("/:name",deleteCategory)
 
